@@ -1,4 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   context: __dirname,
@@ -7,23 +10,32 @@ module.exports = {
     bundle: './src/index.js',
   },
   output: {
-    path: __dirname + '/dist',
-    filename: '[name].js'
+    path: `${__dirname}/dist`,
+    filename: 'static/js/[name].js',
+    publicPath: '/',
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'eslint-loader']
+        use: [
+          'babel-loader',
+          {
+            loader: 'eslint-loader',
+            options: {
+              fix: true,
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: 'html-loader'
-          }
-        ]
+            loader: 'html-loader',
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -31,18 +43,29 @@ module.exports = {
           {
             loader: 'style-loader',
             options: {
-              injectType: 'styleTag'
-            }
+              injectType: 'styleTag',
+            },
           },
           {
-            loader: 'css-loader'
-          }
-        ]
+            loader: 'css-loader',
+          },
+        ],
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
         use: [
-          'file-loader',
+          {
+            loader: 'file-loader',
+            options: {
+              name() {
+                if (process.env.NODE_ENV === 'development') {
+                  return '[contenthash].[ext]';
+                }
+
+                return '/static/images/[name]-[hash].[ext]';
+              },
+            },
+          },
           {
             loader: 'image-webpack-loader',
             options: {
@@ -51,16 +74,26 @@ module.exports = {
             },
           },
         ],
-      }
-    ]
+      },
+    ],
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: './src/index.html',
-      filename: './index.html'
-    })
+      filename: './index.html',
+    }),
+    new ErrorOverlayPlugin(),
+    new Dotenv(),
   ],
   resolve: {
-    extensions: ['.js', '.jsx']
-  }
+    extensions: ['.js', '.jsx'],
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin(),
+    ],
+  },
 };
