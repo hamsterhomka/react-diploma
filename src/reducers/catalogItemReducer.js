@@ -2,7 +2,7 @@ import {
   FETCH_CATALOG_ITEM_REQUEST,
   FETCH_CATALOG_ITEM_FAILURE,
   FETCH_CATALOG_ITEM_SUCCESS,
-  INCREMENT_QUANTITY, DECREMENT_QUANTITY, SELECT_SIZE,
+  INCREMENT_QUANTITY, DECREMENT_QUANTITY, SELECT_SIZE, RESET_CATALOG_ITEM,
 } from '../actions/actionTypes';
 import { CATALOG_ITEM_MAX_QUANTITY } from '../constants';
 
@@ -57,6 +57,11 @@ export default function catalogReducer(state = initialState, action) {
       const { size } = action.payload;
       return {
         ...state, selectedSize: size,
+      };
+    }
+    case RESET_CATALOG_ITEM: {
+      return {
+        ...initialState,
       };
     }
     default: {

@@ -6,11 +6,12 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import Preloader from '../UI/Preloader/Preloader';
 import CatalogSearchForm from './CatalogSearchForm';
 import {
-  fetchCategoriesRequest, fetchProductsRequest, setCatalogNeedsScroll, setOffset, setSearch,
+  fetchCategoriesRequest, fetchProductsRequest, setOffset, setSearch,
 } from '../../actions/catalogActions';
 import { CATALOG_SEARCH_FORM, OFFSET_LOAD_AMOUNT, PATH_PARAMS } from '../../constants';
 import CatalogContent from './CatalogContent';
 import { goSearch } from '../../helpers';
+import useScroll from '../../hooks/useScroll';
 
 function Catalog({ withSearchForm, history, location }) {
   const params = new URLSearchParams(location.search);
@@ -20,7 +21,7 @@ function Catalog({ withSearchForm, history, location }) {
     needScroll,
     categories: {
       isLoading: isCategoriesLoading,
-      items: categoriesItems,
+      items: categoriesList,
     },
     products: {
       search,
@@ -34,11 +35,11 @@ function Catalog({ withSearchForm, history, location }) {
   const dispatch = useDispatch();
   const isLoading = isCategoriesLoading || isProductsLoading;
   const isInitialLoading = isLoading && !offset;
-  const isSecondaryLoading = offset > 0 && isProductsLoading;
+  const isSecondaryLoading = isProductsLoading && offset > 0;
 
   useEffect(() => {
     // if we already have loaded categories we dont need it anymore
-    if (!categoriesItems.filter((category) => category.id).length) {
+    if (!categoriesList.filter((category) => category.id).length) {
       dispatch(fetchCategoriesRequest());
     }
 
@@ -54,20 +55,10 @@ function Catalog({ withSearchForm, history, location }) {
     if (searchLocationParam !== search) {
       dispatch(setOffset(0));
       dispatch(setSearch(searchLocationParam));
-      dispatch(fetchProductsRequest());
     }
   }, [dispatch, searchLocationParam]);
 
-  useEffect(() => {
-    if (needScroll) {
-      document.getElementById('catalog-h').scrollIntoView({ block: 'start', behavior: 'smooth' });
-      dispatch(setCatalogNeedsScroll(false));
-    }
-  }, [needScroll, search]);
-
-  const handleLoadMore = () => {
-    dispatch(setOffset(offset + OFFSET_LOAD_AMOUNT));
-  };
+  useScroll(needScroll, dispatch);
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
@@ -84,9 +75,9 @@ function Catalog({ withSearchForm, history, location }) {
         : (
           <CatalogContent
             areProductsOver={areProductsOver}
-            handleLoadMore={handleLoadMore}
             productsList={productsList}
             isSecondaryLoading={isSecondaryLoading}
+            offset={offset}
           />
         )}
     </section>

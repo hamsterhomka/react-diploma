@@ -7,12 +7,14 @@ import navLinksReducer from '../reducers/navLinksReducer';
 import catalogReducer from '../reducers/catalogReducer';
 import topSalesReducer from '../reducers/topSalesReducer';
 import {
-  fetchCategoriesEpic, fetchProductsEpic, setCategoryEpic, setOffsetEpic,
+  fetchCategoriesEpic, fetchProductsEpic, setCategoryEpic, setOffsetEpic, setSearchEpic,
 } from '../epics/catalogEpic';
 import { fetchTopSalesEpic } from '../epics/topSalesEpic';
 import navBarReducer from '../reducers/navBarReducer';
 import catalogItemReducer from '../reducers/catalogItemReducer';
 import { fetchCatalogItemEpic } from '../epics/catalogItemEpic';
+import cartReducer from '../reducers/CartReducer';
+import { addProductToCartEpic } from '../epics/cartEpic';
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -21,6 +23,7 @@ const rootReducer = combineReducers({
   catalogItem: catalogItemReducer,
   topSales: topSalesReducer,
   navBar: navBarReducer,
+  cart: cartReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -29,9 +32,10 @@ const epic = combineEpics(
   fetchProductsEpic,
   setCategoryEpic,
   fetchTopSalesEpic,
-  // setSearchEpic,
+  setSearchEpic,
   setOffsetEpic,
   fetchCatalogItemEpic,
+  addProductToCartEpic,
 );
 const epicMiddleware = createEpicMiddleware();
 const store = createStore(rootReducer, composeEnhancers(

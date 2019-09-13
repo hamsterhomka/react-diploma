@@ -23,6 +23,7 @@ export const PATHS = {
   catalog: '/catalog',
   about: '/about',
   contacts: '/contacts',
+  cart: '/cart',
 };
 
 export const PATH_PARAMS = {

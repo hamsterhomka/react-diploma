@@ -1,6 +1,11 @@
 import {
   DECREMENT_QUANTITY,
-  FETCH_CATALOG_ITEM_FAILURE, FETCH_CATALOG_ITEM_REQUEST, FETCH_CATALOG_ITEM_SUCCESS, INCREMENT_QUANTITY, SELECT_SIZE,
+  FETCH_CATALOG_ITEM_FAILURE,
+  FETCH_CATALOG_ITEM_REQUEST,
+  FETCH_CATALOG_ITEM_SUCCESS,
+  INCREMENT_QUANTITY,
+  RESET_CATALOG_ITEM,
+  SELECT_SIZE,
 } from './actionTypes';
 
 export const fetchCatalogItemRequest = (id) => ({
@@ -24,6 +29,10 @@ export const incrementQuantity = () => ({
 
 export const decrementQuantity = () => ({
   type: DECREMENT_QUANTITY,
+});
+
+export const resetCatalogItem = () => ({
+  type: RESET_CATALOG_ITEM,
 });
 
 export const selectSize = (size) => ({

@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import CatalogCategories from '../CatalogCategories';
 import CatalogProducts from '../../CatalogProducts';
 import CatalogNotFound from '../CatalogNotFound/CatalogNotFound';
 import Preloader from '../../UI/Preloader';
 import { productPropType } from '../../../types/shapes';
+import { setOffset } from '../../../actions/catalogActions';
+import { OFFSET_LOAD_AMOUNT } from '../../../constants';
 
 function CatalogContent({
-  productsList, isSecondaryLoading, handleLoadMore, areProductsOver,
+  productsList, isSecondaryLoading, areProductsOver, offset,
 }) {
+  const dispatch = useDispatch();
+  const handleLoadMore = () => {
+    dispatch(setOffset(offset + OFFSET_LOAD_AMOUNT));
+  };
+
   return (
     <>
       <CatalogCategories />
@@ -35,8 +43,8 @@ function CatalogContent({
 CatalogContent.propTypes = {
   productsList: PropTypes.arrayOf(productPropType).isRequired,
   isSecondaryLoading: PropTypes.bool.isRequired,
-  handleLoadMore: PropTypes.func.isRequired,
   areProductsOver: PropTypes.bool.isRequired,
+  offset: PropTypes.number.isRequired,
 };
 
 export default CatalogContent;

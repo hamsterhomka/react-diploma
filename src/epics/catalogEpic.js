@@ -5,7 +5,7 @@ import {
 import { of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import {
-  FETCH_CATEGORIES_REQUEST, FETCH_PRODUCTS_REQUEST, SET_CATEGORY, SET_OFFSET,
+  FETCH_CATEGORIES_REQUEST, FETCH_PRODUCTS_REQUEST, SET_CATEGORY, SET_OFFSET, SET_SEARCH,
 } from '../actions/actionTypes';
 import {
   fetchCategoriesFailure,
@@ -50,7 +50,6 @@ export function setCategoryEpic(action$) {
     ofType(SET_CATEGORY),
     mergeMap(() => of(
       setOffset(0),
-      fetchProductsRequest(),
     )),
   );
 }
@@ -58,6 +57,13 @@ export function setCategoryEpic(action$) {
 export function setOffsetEpic(action$) {
   return action$.pipe(
     ofType(SET_OFFSET),
+    map(() => fetchProductsRequest()),
+  );
+}
+
+export function setSearchEpic(action$) {
+  return action$.pipe(
+    ofType(SET_SEARCH),
     map(() => fetchProductsRequest()),
   );
 }

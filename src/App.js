@@ -11,6 +11,7 @@ import CatalogView from './views/CatalogView';
 import { PATHS } from './constants';
 import CatalogItem from './views/CatalogItem';
 import Banner from './components/Banner';
+import CartView from './views/CartView';
 
 function App() {
   const renderSwitch = () => {
@@ -35,6 +36,10 @@ function App() {
       {
         path: `${PATHS.catalog}`,
         component: CatalogView,
+      },
+      {
+        path: `${PATHS.cart}`,
+        component: CartView,
       },
       {
         path: '*',

@@ -3,22 +3,30 @@ import ReactRouterPropTypes from 'react-router-prop-types/';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import {
-  decrementQuantity, fetchCatalogItemRequest, incrementQuantity, selectSize,
+  decrementQuantity, fetchCatalogItemRequest, incrementQuantity, resetCatalogItem, selectSize,
 } from '../../actions/catalogItemActions';
 import Preloader from '../../components/UI/Preloader';
 import useTitle from '../../hooks/useTitle';
+import { addProductToCart } from '../../actions/cartActions';
 
 function CatalogItem({ match: { params: { id } } }) {
+  const productItem = useSelector((state) => state.catalogItem);
   const {
     isLoading, title, images, sku, manufacturer,
     color, material, reason, season, sizes, quantity, selectedSize,
-  } = useSelector((state) => state.catalogItem);
+  } = productItem;
 
   useTitle(title);
+
+  console.log(localStorage.getItem('cart'));
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCatalogItemRequest(id));
+
+    return () => {
+      dispatch(resetCatalogItem());
+    };
   }, [dispatch]);
 
   const handleIncrement = () => {
@@ -32,6 +40,11 @@ function CatalogItem({ match: { params: { id } } }) {
   const handleSelectSize = (event, size) => {
     event.preventDefault();
     dispatch(selectSize(size));
+  };
+
+  const handleAddToCart = (product) => {
+    console.log('action');
+    dispatch(addProductToCart(product));
   };
 
   return (
@@ -81,9 +94,6 @@ function CatalogItem({ match: { params: { id } } }) {
                 <div className="text-center">
                   <p>
                     Размеры в наличии:
-                    {/* <span className="catalog-item-size selected">18 US</span> */}
-                    {/* <span className="catalog-item-size">20 US</span> */}
-
                     {sizes
                       .filter((size) => size.avalible)
                       .map((size) => {
@@ -112,7 +122,14 @@ function CatalogItem({ match: { params: { id } } }) {
                     </span>
                   </p>
                 </div>
-                <button type="button" className="btn btn-danger btn-block btn-lg">В корзину</button>
+                <button
+                  type="button"
+                  className="btn btn-danger btn-block btn-lg"
+                  disabled={!selectedSize}
+                  onClick={() => handleAddToCart(productItem)}
+                >
+                  В корзину
+                </button>
               </div>
             </div>
           </>
