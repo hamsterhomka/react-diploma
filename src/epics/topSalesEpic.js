@@ -14,7 +14,7 @@ export function fetchTopSalesEpic(action$) {
       .pipe(
         retry(3),
         map((products) => fetchTopSalesSuccess(products)),
-        catchError((error) => of(fetchTopSalesFailure(error))),
+        catchError((error) => of(fetchTopSalesFailure(error.message))),
       )),
   );
 }

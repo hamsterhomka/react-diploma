@@ -14,7 +14,7 @@ import navBarReducer from '../reducers/navBarReducer';
 import catalogItemReducer from '../reducers/catalogItemReducer';
 import { fetchCatalogItemEpic } from '../epics/catalogItemEpic';
 import cartReducer from '../reducers/CartReducer';
-import { addProductToCartEpic } from '../epics/cartEpic';
+import { cartLocalStorageEpic } from '../epics/cartEpic';
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -35,7 +35,7 @@ const epic = combineEpics(
   setSearchEpic,
   setOffsetEpic,
   fetchCatalogItemEpic,
-  addProductToCartEpic,
+  cartLocalStorageEpic,
 );
 const epicMiddleware = createEpicMiddleware();
 const store = createStore(rootReducer, composeEnhancers(

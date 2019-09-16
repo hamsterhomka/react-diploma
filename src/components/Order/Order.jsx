@@ -1,4 +1,5 @@
 import React from 'react';
+import OrderForm from './OrderForm';
 
 function Order() {
   return (
@@ -11,28 +12,7 @@ function Order() {
           margin: '0 auto',
         }}
       >
-        <form className="card-body">
-          <div className="form-group">
-            <label htmlFor="phone">
-              Телефон
-              <input className="form-control" id="phone" placeholder="Ваш телефон" />
-            </label>
-          </div>
-          <div className="form-group">
-            <label htmlFor="address">
-              Адрес доставки
-              <input className="form-control" id="address" placeholder="Адрес доставки" />
-            </label>
-          </div>
-          <div className="form-group form-check">
-            <label className="form-check-label" htmlFor="agreement">
-              <input type="checkbox" className="form-check-input" id="agreement" />
-              Согласен с правилами доставки
-            </label>
-          </div>
-          <button type="submit" className="btn btn-outline-secondary">Оформить</button>
-        </form>
-
+        <OrderForm />
       </div>
     </section>
   );

@@ -12,8 +12,11 @@ import { PATHS } from './constants';
 import CatalogItem from './views/CatalogItem';
 import Banner from './components/Banner';
 import CartView from './views/CartView';
+import useCart from './hooks/useCart';
 
 function App() {
+  useCart();
+
   const renderSwitch = () => {
     const routes = [
       {

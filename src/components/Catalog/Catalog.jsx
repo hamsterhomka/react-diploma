@@ -8,7 +8,7 @@ import CatalogSearchForm from './CatalogSearchForm';
 import {
   fetchCategoriesRequest, fetchProductsRequest, setOffset, setSearch,
 } from '../../actions/catalogActions';
-import { CATALOG_SEARCH_FORM, OFFSET_LOAD_AMOUNT, PATH_PARAMS } from '../../constants';
+import { OFFSET_LOAD_AMOUNT, PATH_PARAMS } from '../../constants';
 import CatalogContent from './CatalogContent';
 import { goSearch } from '../../helpers';
 import useScroll from '../../hooks/useScroll';
@@ -22,6 +22,7 @@ function Catalog({ withSearchForm, history, location }) {
     categories: {
       isLoading: isCategoriesLoading,
       items: categoriesList,
+      error: categoriesError,
     },
     products: {
       search,
@@ -29,6 +30,7 @@ function Catalog({ withSearchForm, history, location }) {
       offset,
       items: productsList,
       isLoading: isProductsLoading,
+      error: productsError,
     },
   } = useSelector((state) => state.catalog);
   const { catalogSearch } = useSelector((state) => state.form);
@@ -49,7 +51,7 @@ function Catalog({ withSearchForm, history, location }) {
     }
 
     // set form search field equal to query search param
-    dispatch(change(CATALOG_SEARCH_FORM.name, CATALOG_SEARCH_FORM.fieldsNames.search, searchLocationParam));
+    dispatch(change('catalogSearch', 'search', searchLocationParam));
 
     // if search in state isn't equal to search query param set new search state and fetch products
     if (searchLocationParam !== search) {
@@ -62,7 +64,7 @@ function Catalog({ withSearchForm, history, location }) {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    const searchParam = catalogSearch.values ? catalogSearch.values.search : null;
+    const { search: searchParam } = catalogSearch.values;
     goSearch(searchParam, history);
   };
 
@@ -78,6 +80,8 @@ function Catalog({ withSearchForm, history, location }) {
             productsList={productsList}
             isSecondaryLoading={isSecondaryLoading}
             offset={offset}
+            categoriesError={categoriesError}
+            productsError={productsError}
           />
         )}
     </section>

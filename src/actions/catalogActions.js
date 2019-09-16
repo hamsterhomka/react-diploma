@@ -49,7 +49,7 @@ export const fetchProductsRequest = (categoryId, search, offset) => ({
 
 export const fetchProductsFailure = (error) => ({
   type: FETCH_PRODUCTS_FAILURE,
-  payload: { error: error.message },
+  payload: { error },
 });
 
 export const fetchProductsSuccess = (products) => ({

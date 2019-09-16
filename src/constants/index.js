@@ -5,20 +5,6 @@ export const OFFSET_LOAD_AMOUNT = 6;
 
 export const CATALOG_ITEM_MAX_QUANTITY = 10;
 
-export const CATALOG_SEARCH_FORM = {
-  name: 'catalogSearch',
-  fieldsNames: {
-    search: 'search',
-  },
-};
-
-export const HEADER_SEARCH_FORM = {
-  name: 'headerSearch',
-  fieldsNames: {
-    search: 'search',
-  },
-};
-
 export const PATHS = {
   catalog: '/catalog',
   about: '/about',

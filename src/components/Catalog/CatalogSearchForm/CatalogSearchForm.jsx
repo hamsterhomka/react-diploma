@@ -1,7 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import { CATALOG_SEARCH_FORM } from '../../../constants';
 
 const CatalogSearchFormTemplate = ({ handleSubmit }) => (
   <form className="catalog-search-form form-inline" onSubmit={handleSubmit}>
@@ -14,7 +13,10 @@ CatalogSearchFormTemplate.propTypes = {
 };
 
 const CatalogSearchForm = reduxForm({
-  form: CATALOG_SEARCH_FORM.name,
+  form: 'catalogSearch',
+  initialValues: {
+    search: '',
+  },
 })(CatalogSearchFormTemplate);
 
 export default CatalogSearchForm;

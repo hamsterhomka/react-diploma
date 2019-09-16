@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import PropTypes from 'prop-types';
-import { HEADER_SEARCH_FORM } from '../../../constants';
 
 const HeaderSearchFormTemplate = ({ handleSubmit }) => {
   const { isSearchFormHidden } = useSelector((state) => state.navBar);
@@ -26,7 +25,10 @@ HeaderSearchFormTemplate.propTypes = {
 };
 
 const HeaderSearchForm = reduxForm({
-  form: HEADER_SEARCH_FORM.name,
+  form: 'headerSearch',
+  initialValues: {
+    search: '',
+  },
 })(HeaderSearchFormTemplate);
 
 export default HeaderSearchForm;

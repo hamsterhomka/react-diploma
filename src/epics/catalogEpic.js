@@ -14,7 +14,7 @@ import {
   fetchProductsRequest,
   fetchProductsSuccess, setOffset,
 } from '../actions/catalogActions';
-import { fetchProductsUrl } from '../helpers/apiUrlCreators';
+import { fetchProductsUrl } from '../helpers/urlCreators';
 
 export function fetchCategoriesEpic(action$) {
   return action$.pipe(
@@ -23,7 +23,7 @@ export function fetchCategoriesEpic(action$) {
       .pipe(
         retry(3),
         map((categories) => fetchCategoriesSuccess(categories)),
-        catchError((error) => of(fetchCategoriesFailure(error))),
+        catchError((error) => of(fetchCategoriesFailure(error.message))),
       )),
   );
 }
@@ -40,7 +40,7 @@ export function fetchProductsEpic(action$, state$) {
         .pipe(
           retry(3),
           map((products) => fetchProductsSuccess(products)),
-          catchError((error) => of(fetchProductsFailure(error))),
+          catchError((error) => of(fetchProductsFailure(error.message))),
         ))),
   );
 }

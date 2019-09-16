@@ -209,6 +209,10 @@ section {
     color: #0056b3;
 }
 
+.catalog-item {
+    min-height: 400px;
+}
+
 .catalog-item-card {
     margin-bottom: 1em;
     min-height: 600px;

@@ -6,7 +6,6 @@ import NavBarMainNav from '../NavBarMainNav';
 import HeaderControlsPics from '../../HeaderControlsPics';
 import HeaderSearchForm from '../../HeaderSearchForm';
 import { setCatalogNeedsScroll } from '../../../../actions/catalogActions';
-import { HEADER_SEARCH_FORM } from '../../../../constants';
 import { goSearch } from '../../../../helpers';
 import { toggleNavBar } from '../../../../actions/NavBarActions';
 
@@ -17,10 +16,11 @@ function NavBarMain({ history }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (headerSearch.values) {
-      goSearch(headerSearch.values.search, history);
+    if (headerSearch) {
+      const { search } = headerSearch.values;
+      goSearch(search, history);
       if (document && document.activeElement) document.activeElement.blur();
-      dispatch(destroy(HEADER_SEARCH_FORM.name));
+      dispatch(destroy('headerSearch'));
       dispatch(setCatalogNeedsScroll(true));
     }
 

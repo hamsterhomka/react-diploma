@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { productPropType } from '../../../types/shapes';
+import { productLinkUrl } from '../../../helpers/urlCreators';
 
 function CatalogItemCard({
   product: {
@@ -19,7 +20,7 @@ function CatalogItemCard({
       <div className="card-body catalog-item-card__body">
         <p className="card-text">{title}</p>
         <p className="card-text">{price}</p>
-        <Link to={`/catalog/${id}`} className="btn btn-outline-primary">Заказать</Link>
+        <Link to={productLinkUrl(id)} className="btn btn-outline-primary">Заказать</Link>
       </div>
     </div>
   );

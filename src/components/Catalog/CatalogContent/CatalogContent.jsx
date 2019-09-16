@@ -6,16 +6,25 @@ import CatalogProducts from '../../CatalogProducts';
 import CatalogNotFound from '../CatalogNotFound/CatalogNotFound';
 import Preloader from '../../UI/Preloader';
 import { productPropType } from '../../../types/shapes';
-import { setOffset } from '../../../actions/catalogActions';
+import { fetchCategoriesRequest, fetchProductsRequest, setOffset } from '../../../actions/catalogActions';
 import { OFFSET_LOAD_AMOUNT } from '../../../constants';
+import Error from '../../Error';
 
 function CatalogContent({
-  productsList, isSecondaryLoading, areProductsOver, offset,
+  productsList, isSecondaryLoading, areProductsOver, offset, categoriesError, productsError,
 }) {
   const dispatch = useDispatch();
   const handleLoadMore = () => {
     dispatch(setOffset(offset + OFFSET_LOAD_AMOUNT));
   };
+
+  if (categoriesError) {
+    return <Error tryAction={fetchCategoriesRequest()} />;
+  }
+
+  if (productsError) {
+    return <Error tryAction={fetchProductsRequest()} />;
+  }
 
   return (
     <>
@@ -45,6 +54,13 @@ CatalogContent.propTypes = {
   isSecondaryLoading: PropTypes.bool.isRequired,
   areProductsOver: PropTypes.bool.isRequired,
   offset: PropTypes.number.isRequired,
+  categoriesError: PropTypes.string,
+  productsError: PropTypes.string,
+};
+
+CatalogContent.defaultProps = {
+  categoriesError: null,
+  productsError: null,
 };
 
 export default CatalogContent;
