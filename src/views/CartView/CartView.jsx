@@ -12,8 +12,10 @@ function CartView() {
   useTitle('Корзина');
 
   useEffect(() => () => {
-    dispatch(resetCart());
-  }, []);
+    if (isDone) {
+      dispatch(resetCart());
+    }
+  }, [isDone]);
 
   const renderOrder = () => (
     products.length

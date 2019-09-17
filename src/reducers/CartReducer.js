@@ -51,10 +51,10 @@ export default function cartReducer(state = initialState, { type, payload }) {
       };
     }
     case RESET_CART: {
-      return { ...initialState, products: [] };
+      return { ...initialState };
     }
     case SET_CART_DONE: {
-      return { ...state, isDone: true };
+      return { ...initialState, isDone: true };
     }
     default:
       return { ...state };

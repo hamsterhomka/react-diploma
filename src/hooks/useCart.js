@@ -5,10 +5,12 @@ import { loadCartProductsState } from '../actions/cartActions';
 export default function useCart() {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const { products } = JSON.parse(localStorage.getItem('cart'));
+  const cartStorage = localStorage.getItem('cart');
 
   useEffect(() => {
-    if (!cart.isLoaded) {
+    if (cartStorage && !cart.isLoaded) {
+      const { products } = JSON.parse(cartStorage);
+
       dispatch(loadCartProductsState(products));
     }
   }, [dispatch]);
